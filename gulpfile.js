@@ -1,5 +1,5 @@
 import gulp from 'gulp';
-const { src, dest } = gulp;
+const { src, dest, watch, series } = gulp;
 
 import cleanCSS from 'gulp-clean-css';
 import sourcemaps from 'gulp-sourcemaps';
@@ -21,4 +21,8 @@ export function styles() {
 		}))
 		.pipe(sourcemaps.write())
 		.pipe(dest('dist/styles'))
+}
+
+export function dev() {
+	watch('src/**', series(styles))
 }
