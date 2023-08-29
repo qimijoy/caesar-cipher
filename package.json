@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "",
+  "type": "module",
   "author": "qimijoy",
   "license": "ISC",
   "devDependencies": {
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-sourcemaps": "^3.0.0"
   }
 }
