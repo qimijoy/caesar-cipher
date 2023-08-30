@@ -5,6 +5,10 @@ import htmlmin from 'gulp-htmlmin';
 import less from 'gulp-less';
 import cleanCSS from 'gulp-clean-css';
 
+// import uglify from 'gulp-uglify-es';
+
+import sourcemaps from 'gulp-sourcemaps';
+
 import rename from 'gulp-rename';
 
 // HTML
@@ -34,6 +38,17 @@ export const styles = () => {
 		.pipe(gulp.dest('dist/styles'))
 }
 
+// SCRIPTS
+
+export const scripts = () => {
+	return gulp.src('src/scripts/main.js')
+		.pipe(rename({ suffix: '.min' }))
+		.pipe(sourcemaps.init())
+		// .pipe(uglify())
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest('dist/scripts'))
+}
+
 // ASSETS
 
 export const images = () => {
@@ -44,7 +59,8 @@ export const images = () => {
 
 export const dev = () => {
 	gulp.watch('src/index.html', html)
-	gulp.watch('src/**/*.css', styles)
+	gulp.watch('src/**/*.less', styles)
+	gulp.watch('src/**/*.js', scripts)
 }
 
-export default gulp.series(html, styles, images);
+export default gulp.series(html, styles, scripts, images);
