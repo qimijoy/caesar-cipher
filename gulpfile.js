@@ -2,8 +2,10 @@ import gulp from 'gulp';
 
 import htmlmin from 'gulp-htmlmin';
 
+import less from 'gulp-less';
 import cleanCSS from 'gulp-clean-css';
-import sourcemaps from 'gulp-sourcemaps';
+
+import rename from 'gulp-rename';
 
 // HTML
 
@@ -19,8 +21,8 @@ export const html = () => {
 // STYLES
 
 export const styles = () => {
-	return gulp.src('src/styles/**/*.css')
-		.pipe(sourcemaps.init())
+	return gulp.src('src/styles/main.less')
+		.pipe(less())
 		.pipe(cleanCSS({ debug: true }, (details) => {
 			console.log(`Файл: ${details.name}`);
 			console.log(`Изначальный размер: ${details.stats.originalSize}`);
@@ -28,7 +30,7 @@ export const styles = () => {
 			console.log(`Эффективность сжатия: ${Math.round(details.stats.efficiency * 100)}%`)
 			console.log('=============================================')
 		}))
-		.pipe(sourcemaps.write())
+		.pipe(rename({ suffix: '.min' }))
 		.pipe(gulp.dest('dist/styles'))
 }
 
