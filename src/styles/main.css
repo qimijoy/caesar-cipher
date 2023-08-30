@@ -133,7 +133,7 @@ h1 {
 
 .header-caesar__image {
   margin-top: 100px;
-  background: url("assets/bg.png") no-repeat 0 0 / cover;
+  background: url("../assets/bg.png") no-repeat 0 0 / cover;
   height: 300px;
   opacity: 0.7;
 }
