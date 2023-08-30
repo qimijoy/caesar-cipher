@@ -4,11 +4,13 @@ import htmlmin from 'gulp-htmlmin';
 
 import less from 'gulp-less';
 import cleanCSS from 'gulp-clean-css';
+import autoprefixer from 'gulp-autoprefixer';
 
 // import uglify from 'gulp-uglify-es';
 
 import sourcemaps from 'gulp-sourcemaps';
 
+import concat from 'gulp-concat';
 import rename from 'gulp-rename';
 
 import bs from 'browser-sync';
@@ -29,6 +31,7 @@ export const html = () => {
 export const styles = () => {
 	return gulp.src('src/styles/main.less')
 		.pipe(less())
+		.pipe(autoprefixer())
 		.pipe(cleanCSS({ debug: true }, (details) => {
 			console.log(`Файл: ${details.name}`);
 			console.log(`Изначальный размер: ${details.stats.originalSize}`);
@@ -43,8 +46,11 @@ export const styles = () => {
 
 // SCRIPTS
 export const scripts = () => {
-	return gulp.src('src/scripts/main.js')
-		.pipe(rename({ suffix: '.min' }))
+	return gulp.src([
+		'src/scripts/main.js',
+		'node_modules/chart.js/dist/chart.js',
+	])
+		.pipe(concat('main.min.js'))
 		.pipe(sourcemaps.init())
 		// .pipe(uglify())
 		.pipe(sourcemaps.write())
@@ -61,7 +67,7 @@ export const images = () => {
 // BROWSER-SYNC
 export const browserSync = () => {
 	bs({
-		server: './src'
+		server: './dist'
 	});
 }
 
