@@ -11,6 +11,8 @@ import sourcemaps from 'gulp-sourcemaps';
 
 import rename from 'gulp-rename';
 
+import bs from 'browser-sync';
+
 // HTML
 
 export const html = () => {
@@ -20,10 +22,10 @@ export const html = () => {
 			removeComments: true
 		}))
 		.pipe(gulp.dest('dist/'))
+		.pipe(bs.stream())
 }
 
 // STYLES
-
 export const styles = () => {
 	return gulp.src('src/styles/main.less')
 		.pipe(less())
@@ -36,10 +38,10 @@ export const styles = () => {
 		}))
 		.pipe(rename({ suffix: '.min' }))
 		.pipe(gulp.dest('dist/styles'))
+		.pipe(bs.stream())
 }
 
 // SCRIPTS
-
 export const scripts = () => {
 	return gulp.src('src/scripts/main.js')
 		.pipe(rename({ suffix: '.min' }))
@@ -47,20 +49,28 @@ export const scripts = () => {
 		// .pipe(uglify())
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest('dist/scripts'))
+		.pipe(bs.stream())
 }
 
 // ASSETS
-
 export const images = () => {
 	return gulp.src(['src/assets/**/*.png', 'src/assets/**/*.ico', 'src/assets/**/*.svg'])
 		.pipe(gulp.dest('dist/assets/'))
 }
 
+// BROWSER-SYNC
+export const browserSync = () => {
+	bs({
+		server: './src'
+	});
+}
 
-export const dev = () => {
-	gulp.watch('src/index.html', html)
+// DEVELOPMENT
+
+export const watching = () => {
+	gulp.watch(['src/index.html']).on('change', bs.reload)
 	gulp.watch('src/**/*.less', styles)
 	gulp.watch('src/**/*.js', scripts)
 }
 
-export default gulp.series(html, styles, scripts, images);
+export default gulp.parallel(html, styles, scripts, images, browserSync, watching);
