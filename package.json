@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "",
+  "type": "module",
   "author": "qimijoy",
   "license": "ISC",
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
+    "gulp-htmlmin": "^5.0.1",
     "gulp-sourcemaps": "^3.0.0"
   }
 }

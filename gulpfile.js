@@ -1,14 +1,25 @@
-const { src, dest, watch, series, parallel } = require('gulp');
-const cleanCSS = require('gulp-clean-css');
-const sourcemaps = require('gulp-sourcemaps');
+import gulp from 'gulp';
 
-function defaultTask(cb) {
-	console.log('This is a first task')
-	cb();
+import htmlmin from 'gulp-htmlmin';
+
+import cleanCSS from 'gulp-clean-css';
+import sourcemaps from 'gulp-sourcemaps';
+
+// HTML
+
+export const html = () => {
+	return gulp.src('src/index.html')
+		.pipe(htmlmin({
+			collapseWhitespace: true,
+			removeComments: true
+		}))
+		.pipe(gulp.dest('dist/'))
 }
 
-function styles() {
-	return src('src/styles/**/*.css')
+// STYLES
+
+export const styles = () => {
+	return gulp.src('src/styles/**/*.css')
 		.pipe(sourcemaps.init())
 		.pipe(cleanCSS({ debug: true }, (details) => {
 			console.log(`Файл: ${details.name}`);
@@ -18,24 +29,20 @@ function styles() {
 			console.log('=============================================')
 		}))
 		.pipe(sourcemaps.write())
-		.pipe(dest('dist/styles'))
+		.pipe(gulp.dest('dist/styles'))
 }
 
-function html() {
-	return src('src/index.html')
-		.pipe(dest('dist/'))
+// ASSETS
+
+export const images = () => {
+	return gulp.src(['src/assets/**/*.png', 'src/assets/**/*.ico', 'src/assets/**/*.svg'])
+		.pipe(gulp.dest('dist/assets/'))
 }
 
-function images() {
-	return src(['src/assets/**/*.png', 'src/assets/**/*.ico', 'src/assets/**/*.svg'])
-		.pipe(dest('dist/assets/'))
+
+export const dev = () => {
+	gulp.watch('src/index.html', html)
+	gulp.watch('src/**/*.css', styles)
 }
 
-function dev() {
-	watch('src/index.html', html)
-	watch('src/**/*.css', styles)
-}
-
-exports.default = defaultTask;
-exports.dev = dev;
-exports.build = parallel(html, styles, images);
+export default gulp.series(html, styles, images);
