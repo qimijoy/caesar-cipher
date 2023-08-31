@@ -2,6 +2,7 @@ import gulp from 'gulp';
 
 import clean from 'gulp-clean';
 
+import include from 'gulp-include';
 import htmlmin from 'gulp-htmlmin';
 
 import less from 'gulp-less';
@@ -24,13 +25,14 @@ import newer from 'gulp-newer';
 
 import bs from 'browser-sync';
 
-
 // CLEAN
 export const cleanDist = () => {
-	return gulp.src('dist', { read: false })
+	return gulp.src('dist', {
+		read: false,
+		allowEmpty: true
+	})
 		.pipe(clean());
 }
-
 
 // HTML
 export const html = () => {
@@ -40,6 +42,17 @@ export const html = () => {
 			removeComments: true
 		}))
 		.pipe(gulp.dest('dist/'))
+		.pipe(bs.stream())
+}
+
+// HTML TEMPLATES
+export const pages = () => {
+	return gulp.src('src/pages/*.html')
+		.pipe(include({
+			includePaths: 'src/components'
+		}))
+		.pipe(rename('index.html'))
+		.pipe(gulp.dest('src'))
 		.pipe(bs.stream())
 }
 
@@ -115,6 +128,7 @@ export const watching = () => {
 	});
 
 	gulp.watch('src/index.html', html)
+	gulp.watch(['src/components/**/*.html', 'src/pages/**/*.html'], pages)
 	gulp.watch('src/**/*.less', styles)
 	gulp.watch('src/**/*.js', scripts)
 	gulp.watch('src/assets/images/', gulp.series(images, sprite))
@@ -122,7 +136,7 @@ export const watching = () => {
 }
 
 export default gulp.series(
-	// cleanDist,                                 // It should be in "build" task
-	gulp.parallel(html, styles, scripts, fonts, gulp.series(images, sprite)),
+	cleanDist,                                 // It should be in "build" task
+	gulp.parallel(html, styles, scripts, fonts, pages, gulp.series(images, sprite)),
 	watching
 )
