@@ -1,5 +1,7 @@
 import gulp from 'gulp';
 
+import clean from 'gulp-clean';
+
 import htmlmin from 'gulp-htmlmin';
 
 import less from 'gulp-less';
@@ -10,13 +12,24 @@ import autoprefixer from 'gulp-autoprefixer';
 
 import sourcemaps from 'gulp-sourcemaps';
 
+import webp from 'gulp-webp';
+import imagemin from 'gulp-imagemin';
+
 import concat from 'gulp-concat';
 import rename from 'gulp-rename';
+import newer from 'gulp-newer';
 
 import bs from 'browser-sync';
 
-// HTML
 
+// CLEAN
+export const cleanDist = () => {
+	return gulp.src('dist', { read: false })
+		.pipe(clean());
+}
+
+
+// HTML
 export const html = () => {
 	return gulp.src('src/index.html')
 		.pipe(htmlmin({
@@ -59,24 +72,29 @@ export const scripts = () => {
 }
 
 // ASSETS
+// IMAGES
 export const images = () => {
-	return gulp.src(['src/assets/**/*.png', 'src/assets/**/*.ico', 'src/assets/**/*.svg'])
-		.pipe(gulp.dest('dist/assets/'))
+	return gulp.src('src/assets/images/**/*.*')
+		.pipe(newer('dist/assets/images'))          // update only if new images
+		.pipe(webp())                               // except svg, ico
+		.pipe(imagemin())                           // svg
+		.pipe(gulp.dest('dist/assets/images'))
 }
 
-// BROWSER-SYNC
-export const browserSync = () => {
+// WATCHING
+export const watching = () => {
 	bs({
 		server: './dist'
 	});
-}
 
-// DEVELOPMENT
-
-export const watching = () => {
-	gulp.watch(['src/index.html']).on('change', bs.reload)
+	gulp.watch('src/index.html', html)
 	gulp.watch('src/**/*.less', styles)
 	gulp.watch('src/**/*.js', scripts)
+	gulp.watch('src/assets/images/', images)
 }
 
-export default gulp.parallel(html, styles, scripts, images, browserSync, watching);
+export default gulp.series(
+	// cleanDist,                                 // It should be in "build" task
+	gulp.parallel(html, styles, scripts, images),
+	watching
+)
