@@ -1,6 +1,5 @@
 import gulp from 'gulp';
 
-import clean from 'gulp-clean';
 import { deleteAsync } from 'del';
 
 import include from 'gulp-include';
@@ -23,8 +22,9 @@ import concat from 'gulp-concat';
 import rename from 'gulp-rename';
 import newer from 'gulp-newer';
 import plumber from 'gulp-plumber';
+import notify from 'gulp-notify';
 
-import bs from 'browser-sync';
+import browserSync from 'browser-sync';
 
 // PATHS
 const srcPath = 'src/';
@@ -50,12 +50,22 @@ const path = {
 	},
 	watch: {
 		html: srcPath + '**/*.html',
+		pages: srcPath + 'pages/*.html',
+		components: srcPath + 'components/**/*.html',
 		css: srcPath + 'styles/**/*.less',
 		js: srcPath + 'scripts/**/*.js',
 		images: srcPath + 'assets/images/**/*.{jpeg,png,ico}',
+		svg: srcPath + 'assets/images/**/*.svg',
 		fonts: srcPath + 'assets/fonts/**/*.{ttf,woff}',
 	},
 	clean: './' + distPath
+}
+
+function onError(err) {
+	notify.onError({
+		title: 'Gulp Task Error',
+		message: 'Error: <%= error %>'
+	})(err);
 }
 
 // CLEAN
@@ -72,7 +82,7 @@ export const html = () => {
 			removeComments: true
 		}))
 		.pipe(gulp.dest(path.build.html))
-		.pipe(bs.stream())
+		.pipe(browserSync.stream())
 }
 
 // HTML TEMPLATES
@@ -84,19 +94,20 @@ export const pages = () => {
 		}))
 		.pipe(rename('index.html'))
 		.pipe(gulp.dest(srcPath))
-		.pipe(bs.stream())
+		.pipe(browserSync.stream())
 }
 
 // STYLES
 export const styles = () => {
 	return gulp.src(path.src.css)
-		.pipe(plumber())
+		// .pipe(plumber({	errorHandle: onError }))
+		.pipe(plumber({	errorHandler: onError }))
 		.pipe(less())
 		.pipe(autoprefixer())
 		.pipe(cleanCSS())
 		.pipe(rename({ suffix: '.min' }))
 		.pipe(gulp.dest(path.build.css))
-		.pipe(bs.stream())
+		.pipe(browserSync.stream())
 }
 
 // SCRIPTS
@@ -105,13 +116,13 @@ export const scripts = () => {
 		path.src.js,
 		'node_modules/chart.js/dist/chart.js',
 	])
-		.pipe(plumber())
+		.pipe(plumber({	errorHandler: onError }))
 		.pipe(concat('main.min.js'))
 		.pipe(sourcemaps.init())
 		.pipe(terser())
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(path.build.js))
-		.pipe(bs.stream())
+		.pipe(browserSync.stream())
 }
 
 // ASSETS
@@ -150,20 +161,37 @@ export const fonts = () => {
 
 // WATCHING
 export const watching = () => {
-	bs({
+	browserSync({
 		server: './dist'
 	});
 
-	gulp.watch('src/index.html', html)
-	gulp.watch(['src/components/**/*.html', 'src/pages/**/*.html'], pages)
-	gulp.watch('src/**/*.less', styles)
-	gulp.watch('src/**/*.js', scripts)
-	gulp.watch('src/assets/images/', gulp.series(images, sprite))
-	gulp.watch('src/assets/fonts/**/*.ttf', fonts)
+	gulp.watch(path.watch.html, html)
+	gulp.watch([path.watch.pages, path.watch.components], pages)
+	gulp.watch(path.watch.css, styles)
+	gulp.watch(path.watch.js, scripts)
+	gulp.watch(path.watch.images, images)
+	gulp.watch(path.watch.svg, sprite)
+	gulp.watch(path.watch.fonts, fonts)
 }
 
-export default gulp.series(
+// BUILD TASK
+export const build = gulp.series(
 	cleanDist,
-	gulp.parallel(html, styles, scripts, fonts, pages, gulp.series(images, sprite)),
+	gulp.parallel(
+		html,
+		styles,
+		scripts,
+		fonts,
+		pages,
+		gulp.series(
+			images,
+			sprite
+		)
+	)
+)
+
+// DEFAULT TASK
+export default gulp.series(
+	build,
 	watching
 )
