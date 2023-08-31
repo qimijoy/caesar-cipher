@@ -1,6 +1,7 @@
 import gulp from 'gulp';
 
 import clean from 'gulp-clean';
+import { deleteAsync } from 'del';
 
 import include from 'gulp-include';
 import htmlmin from 'gulp-htmlmin';
@@ -9,8 +10,7 @@ import less from 'gulp-less';
 import cleanCSS from 'gulp-clean-css';
 import autoprefixer from 'gulp-autoprefixer';
 
-// import uglify from 'gulp-uglify-es';
-
+import terser from 'gulp-terser';
 import sourcemaps from 'gulp-sourcemaps';
 
 import webp from 'gulp-webp';
@@ -22,68 +22,95 @@ import ttf2woff2 from 'gulp-ttf2woff2';
 import concat from 'gulp-concat';
 import rename from 'gulp-rename';
 import newer from 'gulp-newer';
+import plumber from 'gulp-plumber';
 
 import bs from 'browser-sync';
 
+// PATHS
+const srcPath = 'src/';
+const distPath = 'dist/';
+
+const path = {
+	build: {
+		html: distPath,
+		css: distPath + 'styles',
+		js: distPath + 'scripts',
+		images: distPath + 'assets/images',
+		fonts: distPath + 'assets/fonts',
+	},
+	src: {
+		html: srcPath + '*.html',
+		pages: srcPath + 'pages/*.html',
+		components: srcPath + 'components',
+		css: srcPath + 'styles/*.less',
+		js: srcPath + 'scripts/*.js',
+		images: srcPath + 'assets/images/**/*.{jpeg,png,ico}',
+		svg: srcPath + 'assets/images/**/*.svg',
+		fonts: srcPath + 'assets/fonts/**/*.{ttf,woff}',
+	},
+	watch: {
+		html: srcPath + '**/*.html',
+		css: srcPath + 'styles/**/*.less',
+		js: srcPath + 'scripts/**/*.js',
+		images: srcPath + 'assets/images/**/*.{jpeg,png,ico}',
+		fonts: srcPath + 'assets/fonts/**/*.{ttf,woff}',
+	},
+	clean: './' + distPath
+}
+
 // CLEAN
 export const cleanDist = () => {
-	return gulp.src('dist', {
-		read: false,
-		allowEmpty: true
-	})
-		.pipe(clean());
+	return deleteAsync(path.clean);
 }
 
 // HTML
 export const html = () => {
-	return gulp.src('src/index.html')
+	return gulp.src(path.src.html)
+		.pipe(plumber())
 		.pipe(htmlmin({
 			collapseWhitespace: true,
 			removeComments: true
 		}))
-		.pipe(gulp.dest('dist/'))
+		.pipe(gulp.dest(path.build.html))
 		.pipe(bs.stream())
 }
 
 // HTML TEMPLATES
 export const pages = () => {
-	return gulp.src('src/pages/*.html')
+	return gulp.src(path.src.pages)
+		.pipe(plumber())
 		.pipe(include({
-			includePaths: 'src/components'
+			includePaths: path.src.components
 		}))
 		.pipe(rename('index.html'))
-		.pipe(gulp.dest('src'))
+		.pipe(gulp.dest(srcPath))
 		.pipe(bs.stream())
 }
 
 // STYLES
 export const styles = () => {
-	return gulp.src('src/styles/main.less')
+	return gulp.src(path.src.css)
+		.pipe(plumber())
 		.pipe(less())
 		.pipe(autoprefixer())
-		.pipe(cleanCSS({ debug: true }, (details) => {
-			console.log(`Файл: ${details.name}`);
-			console.log(`Изначальный размер: ${details.stats.originalSize}`);
-			console.log(`Размер после сжатия: ${details.stats.minifiedSize}`);
-			console.log(`Эффективность сжатия: ${Math.round(details.stats.efficiency * 100)}%`)
-			console.log('=============================================')
-		}))
+		.pipe(cleanCSS())
 		.pipe(rename({ suffix: '.min' }))
-		.pipe(gulp.dest('dist/styles'))
+		.pipe(gulp.dest(path.build.css))
 		.pipe(bs.stream())
 }
 
 // SCRIPTS
 export const scripts = () => {
 	return gulp.src([
-		'src/scripts/main.js',
+		path.src.js,
 		'node_modules/chart.js/dist/chart.js',
 	])
+		.pipe(plumber())
 		.pipe(concat('main.min.js'))
 		.pipe(sourcemaps.init())
-		// .pipe(uglify())
+		.pipe(terser())
 		.pipe(sourcemaps.write())
-		.pipe(gulp.dest('dist/scripts'))
+		.pipe(gulp.dest(path.build.js))
 		.pipe(bs.stream())
 }
 
@@ -91,18 +118,18 @@ export const scripts = () => {
 // IMAGES
 export const images = () => {
 	return gulp.src([
-		'src/assets/images/**/*.*',
+		path.src.images,
 		'!src/assets/images/**/*.svg'
 	])
-		.pipe(newer('dist/assets/images'))          // update only if new images
+		.pipe(newer(path.build.images))             // update only if new images
 		.pipe(webp())                               // except svg, ico
 		.pipe(imagemin())                           // svg
-		.pipe(gulp.dest('dist/assets/images'))
+		.pipe(gulp.dest(path.build.images))
 }
 
 // SVG SPRITE
 export const sprite = () => {
-	return gulp.src('src/assets/images/**/*.svg')
+	return gulp.src(path.src.svg)
 		.pipe(svgSprite({
 			mode: {
 				stack: {
@@ -111,14 +138,14 @@ export const sprite = () => {
 				}
 			}
 		}))
-		.pipe(gulp.dest('dist/assets/images'))
+		.pipe(gulp.dest(path.build.images))
 }
 
 // FONTS
 export const fonts = () => {
-	return gulp.src('src/assets/fonts/**/*.ttf')
+	return gulp.src(path.src.fonts)
 		.pipe(ttf2woff2())
-		.pipe(gulp.dest('dist/assets/fonts'))
+		.pipe(gulp.dest(path.build.fonts))
 }
 
 // WATCHING
@@ -136,7 +163,7 @@ export const watching = () => {
 }
 
 export default gulp.series(
-	cleanDist,                                 // It should be in "build" task
+	cleanDist,
 	gulp.parallel(html, styles, scripts, fonts, pages, gulp.series(images, sprite)),
 	watching
 )
