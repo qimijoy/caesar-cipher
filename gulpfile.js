@@ -14,6 +14,7 @@ import sourcemaps from 'gulp-sourcemaps';
 
 import webp from 'gulp-webp';
 import imagemin from 'gulp-imagemin';
+import svgSprite from 'gulp-svg-sprite';
 
 import concat from 'gulp-concat';
 import rename from 'gulp-rename';
@@ -81,6 +82,23 @@ export const images = () => {
 		.pipe(gulp.dest('dist/assets/images'))
 }
 
+// SVG SPRITE
+export const sprite = () => {
+	return gulp.src([
+		'dist/assets/images/**/*.svg',
+		'!dist/assets/images/sprite.svg'
+	])
+		.pipe(svgSprite({
+			mode: {
+				stack: {
+					sprite: '../sprite.svg',
+					example: false
+				}
+			}
+		}))
+		.pipe(gulp.dest('dist/assets/images'))
+}
+
 // WATCHING
 export const watching = () => {
 	bs({
@@ -90,11 +108,11 @@ export const watching = () => {
 	gulp.watch('src/index.html', html)
 	gulp.watch('src/**/*.less', styles)
 	gulp.watch('src/**/*.js', scripts)
-	gulp.watch('src/assets/images/', images)
+	gulp.watch('src/assets/images/', gulp.series(images, sprite))
 }
 
 export default gulp.series(
-	// cleanDist,                                 // It should be in "build" task
-	gulp.parallel(html, styles, scripts, images),
+	cleanDist,                                 // It should be in "build" task
+	gulp.parallel(html, styles, scripts, gulp.series(images, sprite)),
 	watching
 )
