@@ -16,6 +16,8 @@ import webp from 'gulp-webp';
 import imagemin from 'gulp-imagemin';
 import svgSprite from 'gulp-svg-sprite';
 
+import ttf2woff2 from 'gulp-ttf2woff2';
+
 import concat from 'gulp-concat';
 import rename from 'gulp-rename';
 import newer from 'gulp-newer';
@@ -75,7 +77,10 @@ export const scripts = () => {
 // ASSETS
 // IMAGES
 export const images = () => {
-	return gulp.src('src/assets/images/**/*.*')
+	return gulp.src([
+		'src/assets/images/**/*.*',
+		'!src/assets/images/**/*.svg'
+	])
 		.pipe(newer('dist/assets/images'))          // update only if new images
 		.pipe(webp())                               // except svg, ico
 		.pipe(imagemin())                           // svg
@@ -84,10 +89,7 @@ export const images = () => {
 
 // SVG SPRITE
 export const sprite = () => {
-	return gulp.src([
-		'dist/assets/images/**/*.svg',
-		'!dist/assets/images/sprite.svg'
-	])
+	return gulp.src('src/assets/images/**/*.svg')
 		.pipe(svgSprite({
 			mode: {
 				stack: {
@@ -97,6 +99,13 @@ export const sprite = () => {
 			}
 		}))
 		.pipe(gulp.dest('dist/assets/images'))
+}
+
+// FONTS
+export const fonts = () => {
+	return gulp.src('src/assets/fonts/**/*.ttf')
+		.pipe(ttf2woff2())
+		.pipe(gulp.dest('dist/assets/fonts'))
 }
 
 // WATCHING
@@ -109,10 +118,11 @@ export const watching = () => {
 	gulp.watch('src/**/*.less', styles)
 	gulp.watch('src/**/*.js', scripts)
 	gulp.watch('src/assets/images/', gulp.series(images, sprite))
+	gulp.watch('src/assets/fonts/**/*.ttf', fonts)
 }
 
 export default gulp.series(
-	cleanDist,                                 // It should be in "build" task
-	gulp.parallel(html, styles, scripts, gulp.series(images, sprite)),
+	// cleanDist,                                 // It should be in "build" task
+	gulp.parallel(html, styles, scripts, fonts, gulp.series(images, sprite)),
 	watching
 )
