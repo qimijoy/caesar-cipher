@@ -189,6 +189,7 @@ export const watching = () => {
 	gulp.watch(path.watch.fonts, fonts)
 }
 
+// DEPLOY TO GITHUB
 export const deploy = () => {
 	return gulp.src('./dist/**/*')
 		.pipe(ghPages());
