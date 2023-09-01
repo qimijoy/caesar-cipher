@@ -18,7 +18,6 @@ import svgSprite from 'gulp-svg-sprite';
 
 import ttf2woff2 from 'gulp-ttf2woff2';
 
-import cached from 'gulp-cached';
 import concat from 'gulp-concat';
 import rename from 'gulp-rename';
 import newer from 'gulp-newer';
@@ -79,7 +78,6 @@ export const cleanDist = () => {
 // HTML
 export const html = () => {
 	return gulp.src(path.src.html)
-		.pipe(cached())
 		.pipe(plumber())
 		.pipe(htmlmin({
 			collapseWhitespace: true,
@@ -92,7 +90,6 @@ export const html = () => {
 // HTML TEMPLATES
 export const pages = () => {
 	return gulp.src(path.src.pages)
-		.pipe(cached())
 		.pipe(plumber())
 		.pipe(include({
 			includePaths: path.src.components
@@ -123,7 +120,6 @@ export const scripts = () => {
 		path.src.js,
 		// 'node_modules/chart.js/dist/chart.js',
 	])
-		.pipe(cached())
 		.pipe(plumber({	errorHandler: onError }))
 		.pipe(babel({
 			presets: ['@babel/env']
@@ -181,7 +177,7 @@ export const watching = () => {
 	});
 
 	gulp.watch(path.watch.html, html)
-	gulp.watch([path.watch.pages, path.watch.components], gulp.series(pages, html))
+	gulp.watch([path.watch.pages, path.watch.components], pages)
 	gulp.watch(path.watch.css, styles)
 	gulp.watch(path.watch.js, scripts)
 	gulp.watch(path.watch.images, images)

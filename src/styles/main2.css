@@ -1,15 +1,4 @@
-h1 {
-  margin-bottom: 20px;
-}
-
 /* =========================== MAIN ==============================*/
-.caesar-main-content {
-  margin-top: 30px;
-  padding: 0 40px;
-  flex: 1 0 auto;
-  background-color: white;
-}
-
 .caesar-info-section {
   display: flex;
   flex-flow: column nowrap;
@@ -323,18 +312,4 @@ h1 {
 .fill-me {
   border: 2px solid red;
   transition: border 0.3s linear;
-}
-
-/* =========================== FOOTER ===================================*/
-.footer {
-  flex: 0 0 auto;
-  padding: 20px 40px 0;
-}
-
-.footer__container {
-  text-align: center;
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
 }
