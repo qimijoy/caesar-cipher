@@ -39,13 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //     }
 //   });
 //
-//   // Отображение меню при нажатии на бургер
-//   $(document).delegate(".menuBurger", "click", function (event) {
-//     $(".menuBurger").toggleClass("menuBurger_state-open");
-//     $(".menuBurger__part").toggleClass("menuBurger_state-open");
-//     $(".site-header").toggleClass("menuBurger_state-open");
-//     $(".menu").toggleClass("menuBurger_state-open");
-//   });
+//
 //
 //   // Скролл к выбранному разделу в навигации
 //   $(".menu-link").on("click", function (e) {

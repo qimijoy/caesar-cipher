@@ -44,7 +44,7 @@ const path = {
 		pages: srcPath + 'pages/*.html',
 		components: srcPath + 'components',
 		css: srcPath + 'styles/*.less',
-		js: srcPath + 'scripts/*.js',
+		js: srcPath + 'scripts/**/*.js',
 		images: srcPath + 'assets/images/**/*.{jpeg,png,ico}',
 		svg: srcPath + 'assets/images/**/*.svg',
 		fonts: srcPath + 'assets/fonts/**/*.{ttf,woff}',

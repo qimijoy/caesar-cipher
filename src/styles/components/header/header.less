@@ -35,9 +35,12 @@
 		margin: auto 0;
 	}
 
-	&__logo-title {
-		font-family: "Old Standard TT", serif;
+	&__title {
 		margin: 0 20px 0 0;
+	}
+
+	&__title_hide {
+		opacity: 0;
 	}
 
 	&__menu {
@@ -53,10 +56,16 @@
 
 		@media not @desktops {
 			position: fixed;
+			left: 80px;
 			top: -50px;
 			transition: top 0.5s ease-in;
 			opacity: 0;
 		}
+	}
+
+	&__menu_show {
+		top: 0;
+		opacity: 1;
 	}
 
 	&__menu-item {
@@ -87,13 +96,4 @@
 		height: 300px;
 		opacity: 0.7;
 	}
-}
-
-.site-header.menuBurger_state-open {
-	opacity: 0;
-}
-
-.menu.menuBurger_state-open {
-	top: 0;
-	opacity: 1;
 }
