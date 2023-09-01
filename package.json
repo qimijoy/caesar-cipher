@@ -4,6 +4,10 @@
   "type": "module",
   "author": "qimijoy",
   "license": "ISC",
+  "homepage": "https://qimijoy.github.io/caesar-cipher",
+  "scripts": {
+    "deploy": "gulp build && gh-pages -d dist"
+  },
   "devDependencies": {
     "@babel/core": "^7.22.11",
     "@babel/preset-env": "^7.22.14",
@@ -33,6 +37,7 @@
   "dependencies": {
     "chart.js": "^4.4.0",
     "core-js": "^3.32.1",
+    "gh-pages": "^6.0.0",
     "normalize.css": "^8.0.1"
   }
 }
