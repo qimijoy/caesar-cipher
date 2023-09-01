@@ -102,13 +102,15 @@ export const pages = () => {
 
 // STYLES
 export const styles = () => {
-	return gulp.src(path.src.css)
-		.pipe(cached())
+	return gulp.src([
+		'node_modules/normalize.css/normalize.css',
+		path.src.css,
+	])
 		.pipe(plumber({	errorHandler: onError }))
 		.pipe(less())
 		.pipe(autoprefixer())
 		.pipe(cleanCSS())
-		.pipe(rename({ suffix: '.min' }))
+		.pipe(concat('main.min.css'))
 		.pipe(gulp.dest(path.build.css))
 		.pipe(browserSync.stream())
 }
@@ -177,7 +179,7 @@ export const watching = () => {
 	});
 
 	gulp.watch(path.watch.html, html)
-	gulp.watch([path.watch.pages, path.watch.components], pages)
+	gulp.watch([path.watch.pages, path.watch.components], gulp.series(pages, html))
 	gulp.watch(path.watch.css, styles)
 	gulp.watch(path.watch.js, scripts)
 	gulp.watch(path.watch.images, images)
@@ -188,17 +190,15 @@ export const watching = () => {
 // BUILD TASK
 export const build = gulp.series(
 	cleanDist,
+	pages,
+	html,
 	gulp.parallel(
-		html,
-		pages,
 		styles,
 		scripts,
-	),
-	gulp.parallel(
 		fonts,
 		images,
 		sprite
-	)
+	),
 )
 
 // DEFAULT TASK

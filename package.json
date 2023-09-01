@@ -9,7 +9,6 @@
     "@babel/preset-env": "^7.22.14",
     "@babel/register": "^7.22.5",
     "browser-sync": "^2.29.3",
-    "core-js": "^3.32.1",
     "del": "^7.1.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
@@ -32,6 +31,8 @@
     "gulp-webp": "^4.0.1"
   },
   "dependencies": {
-    "chart.js": "^4.4.0"
+    "chart.js": "^4.4.0",
+    "core-js": "^3.32.1",
+    "normalize.css": "^8.0.1"
   }
 }
