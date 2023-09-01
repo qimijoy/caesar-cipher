@@ -27,6 +27,8 @@ import notify from 'gulp-notify';
 
 import browserSync from 'browser-sync';
 
+import ghPages from 'gulp-gh-pages';
+
 // PATHS
 const srcPath = 'src/';
 const distPath = 'dist/';
@@ -185,6 +187,11 @@ export const watching = () => {
 	gulp.watch(path.watch.images, images)
 	gulp.watch(path.watch.svg, sprite)
 	gulp.watch(path.watch.fonts, fonts)
+}
+
+export const deploy = () => {
+	return gulp.src('./dist/**/*')
+		.pipe(ghPages());
 }
 
 // BUILD TASK
