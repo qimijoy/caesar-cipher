@@ -9,8 +9,8 @@ import less from 'gulp-less';
 import cleanCSS from 'gulp-clean-css';
 import autoprefixer from 'gulp-autoprefixer';
 
+import babel from 'gulp-babel';
 import terser from 'gulp-terser';
-import sourcemaps from 'gulp-sourcemaps';
 
 import webp from 'gulp-webp';
 import imagemin from 'gulp-imagemin';
@@ -114,13 +114,14 @@ export const styles = () => {
 export const scripts = () => {
 	return gulp.src([
 		path.src.js,
-		'node_modules/chart.js/dist/chart.js',
+		// 'node_modules/chart.js/dist/chart.js',
 	])
 		.pipe(plumber({	errorHandler: onError }))
+		.pipe(babel({
+			presets: ['@babel/env']
+		}))
 		.pipe(concat('main.min.js'))
-		.pipe(sourcemaps.init())
 		.pipe(terser())
-		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(path.build.js))
 		.pipe(browserSync.stream())
 }
@@ -162,7 +163,11 @@ export const fonts = () => {
 // WATCHING
 export const watching = () => {
 	browserSync({
-		server: './dist'
+		ui: false,
+		notify: false,
+		server: {
+			baseDir: 'dist'
+		}
 	});
 
 	gulp.watch(path.watch.html, html)
@@ -179,14 +184,14 @@ export const build = gulp.series(
 	cleanDist,
 	gulp.parallel(
 		html,
+		pages,
 		styles,
 		scripts,
+	),
+	gulp.parallel(
 		fonts,
-		pages,
-		gulp.series(
-			images,
-			sprite
-		)
+		images,
+		sprite
 	)
 )
 
