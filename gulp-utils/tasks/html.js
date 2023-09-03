@@ -11,7 +11,7 @@ export default () => {
 	return gulp.src(paths.src.html)
 		.pipe(plumber({	errorHandler: notify.onError(error => ({ title: 'HTML',	message: error.message }))}))
 		.pipe(include({
-			includePaths: paths.src.components
+			includePaths: paths.src.templates
 		}))
 		.pipe(size({ title: 'HTML. Before:'}))
 		.pipe(htmlmin(config.htmlmin))

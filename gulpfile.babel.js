@@ -29,7 +29,7 @@ export {
 
 // WATCHING TASK
 export const watching = () => {
-	gulp.watch([paths.watch.html, paths.watch.components], html).on('all', browserSync.reload)
+	gulp.watch([paths.watch.html, paths.watch.templates], html).on('all', browserSync.reload)
 	gulp.watch(paths.watch.css, styles).on('all', browserSync.reload)
 	gulp.watch(paths.watch.js, scripts).on('all', browserSync.reload)
 	gulp.watch(paths.watch.images, images).on('all', browserSync.reload)

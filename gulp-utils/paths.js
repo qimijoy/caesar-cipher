@@ -11,7 +11,7 @@ export default {
 	},
 	src: {
 		html: src + '*.html',
-		components: src + 'components',
+		templates: src + 'templates',
 		css: src + 'styles/*.less',
 		js: src + 'scripts/**/*.js',
 		images: src + 'assets/images/**/*.{jpeg,jpg,gif,png,ico}',
@@ -20,7 +20,7 @@ export default {
 	},
 	watch: {
 		html: src + '**/*.html',
-		components: src + 'components/**/*.html',
+		templates: src + 'templates/**/*.html',
 		css: src + 'styles/**/*.less',
 		js: src + 'scripts/**/*.js',
 		images: src + 'assets/images/**/*.{jpeg,jpg,gif,png,ico}',
