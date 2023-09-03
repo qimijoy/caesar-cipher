@@ -43,10 +43,6 @@ export const deploy = () => {
 		.pipe(ghPages());
 }
 
-export const test = (cb) => {
-	cb()
-}
-
 // BUILD TASK
 export const build = gulp.series(
 	clean,
