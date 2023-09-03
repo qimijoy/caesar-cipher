@@ -11,7 +11,7 @@ export default () => {
 	return gulp.src([
 		paths.src.js,
 		// 'node_modules/chart.js/dist/chart.js',
-	])
+	], { sourcemaps: true })
 		.pipe(plumber({	errorHandler: notify.onError(error => ({ title: 'JS',	message: error.message }))}))
 		.pipe(size({ title: 'JS. Before:'}))
 		.pipe(babel({
@@ -25,5 +25,5 @@ export default () => {
 		}))
 		.pipe(concat('main.min.js'))
 		.pipe(size({ title: 'JS. After:'}))
-		.pipe(gulp.dest(paths.build.js))
+		.pipe(gulp.dest(paths.build.js), { sourcemaps: true })
 }
