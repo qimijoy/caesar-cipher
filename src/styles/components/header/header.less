@@ -57,7 +57,7 @@
 	}
 
 	&__menu {
-		display: flex;
+		display: none;
 		flex-flow: column nowrap;
 		justify-content: center;
 		align-items: center;
@@ -67,19 +67,17 @@
 		border-radius: 5px;
 		padding: 2px;
 
-		visibility: hidden;
 		position: fixed;
 		right: 95px;
 		top: 70px;
-		transition: opacity 0.5s ease-in;
-		opacity: 0;
+
 		box-shadow: 0 5px 20px 8px @white-shadow;
 
 		@media @desktops {
-			visibility: visible;
+			display: flex;
 			flex-flow: row nowrap;
 			position: static;
-			opacity: 1;
+
 			background-color: initial;
 			padding: 0;
 			box-shadow: none;
@@ -87,8 +85,7 @@
 	}
 
 	&__menu_show {
-		opacity: 1;
-		visibility: visible;
+		display: flex;
 	}
 
 	&__menu-item {
