@@ -1,3 +1,5 @@
+@import './vars.less';
+
 * {
 	box-sizing: border-box;
 }
@@ -5,13 +7,19 @@
 body {
 	font-family: "Roboto", "Arial", sans-serif;
 
-	@media screen and (max-width: 768px) {
-		font-size: 20px;
+	@media @mobile {
+		font-size: @fz-mobile;
+	}
+	@media @tablets {
+		font-size: @fz-tablet;
+	}
+
+	@media @desktops {
+		font-size: @fz-desktop;
 	}
 }
 
 p {
-	font-size: 1.2em;
 	margin-top: 0;
 	margin-bottom: 20px;
 	text-align: justify;
