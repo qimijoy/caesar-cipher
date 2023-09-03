@@ -1,49 +1,73 @@
-// window.onload = function () {
+document.addEventListener('DOMContentLoaded', () => {
+	// Alphabets
+	const CYR_SMALL = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
+	const CYR_BIG = CYR_SMALL.toUpperCase();
+	const LAT_SMALL = "abcdefghijklmnopqrstuvwxyz";
+	const LAT_BIG = LAT_SMALL.toUpperCase();
 
-//   // ============================= CAESAR CIPHER =============================
-//   // Алфавиты
-//   const CYR_SMALL = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";
-//   const CYR_BIG = CYR_SMALL.toUpperCase();
-//   const LAT_SMALL = "abcdefghijklmnopqrstuvwxyz";
-//   const LAT_BIG = LAT_SMALL.toUpperCase();
-//
-//   // -------------------------------Шифрование--------------------------------
-//   let text_in1 = $(".ta-in")[0];
-//   let text_out1 = $(".ta-out")[0];
-//   let key1 = $(".input-key")[0];
-//   let btn_plus1 = $(".textarea-buttons__item")[0];
-//   let btn_minus1 = $(".textarea-buttons__item")[1];
-//
-//   text_in1.oninput = function () {
-//     initShiftAlph(key1.value);
-//     crypt(text_in1, text_out1);
-//   };
-//
-//   key1.oninput = function () {
-//     initShiftAlph(key1.value);
-//     crypt(text_in1, text_out1);
-//   };
-//
-//   btn_plus1.onclick = function () {
-//     if (key1.value < 0) {
-//       key1.value = 0;
-//     } else {
-//       key1.value++;
-//     }
-//     initShiftAlph(key1.value);
-//     crypt(text_in1, text_out1);
-//   };
-//
-//   btn_minus1.onclick = function () {
-//     if (key1.value > 0) {
-//       key1.value--;
-//     } else {
-//       key1.value = 0;
-//     }
-//     initShiftAlph(key1.value);
-//     crypt(text_in1, text_out1);
-//   };
-//
+	const textareaI_IN = document.getElementById('textareaI_IN');
+	const textareaI_OUT = document.getElementById('textareaI_OUT');
+	const inputI = document.getElementById('inputI_KEY');
+	const buttonIplus = document.getElementById('buttonI_plus')
+	const buttonIminus = document.getElementById('buttonI_minus')
+
+	let shiftedCyrSmall = '';
+	let shiftedCyrBIG = '';
+	let shiftedLatSmall = '';
+	let shiftedLatBIG = '';
+
+	const initShiftAlphabet = (key) => {
+		const k_cyr = key % CYR_SMALL.length;
+		const k_lat = key % LAT_BIG.length;
+
+		shiftedCyrSmall = CYR_SMALL.slice(k_cyr) + CYR_SMALL.slice(0, k_cyr);
+		shiftedCyrBIG = CYR_BIG.slice(k_cyr) + CYR_BIG.slice(0, k_cyr);
+		shiftedLatSmall = LAT_SMALL.slice(k_lat) + LAT_SMALL.slice(0, k_lat);
+		shiftedLatBIG = LAT_BIG.slice(k_lat) + LAT_BIG.slice(0, k_lat);
+	}
+
+	// Caesar Algorithm
+	const crypt = (textareaIN, textareaOUT) => {
+		textareaOUT.value = "";
+
+		for (let i = 0; i < textareaIN.value.length; i++) {
+			if (CYR_SMALL.includes(textareaIN.value[i])) {
+				textareaOUT.value += shiftedCyrSmall[CYR_SMALL.indexOf(textareaIN.value[i])];
+			} else if (CYR_BIG.includes(textareaIN.value[i])) {
+				textareaOUT.value += shiftedCyrBIG[CYR_BIG.indexOf(textareaIN.value[i])];
+			}	else if (LAT_SMALL.includes(textareaIN.value[i])) {
+				textareaOUT.value += shiftedLatSmall[LAT_SMALL.indexOf(textareaIN.value[i])];
+			}	else if (LAT_BIG.includes(textareaIN.value[i])) {
+				textareaOUT.value += shiftedLatBIG[LAT_BIG.indexOf(textareaIN.value[i])];
+			}	else {
+				textareaOUT.value += textareaIN.value[i];
+			}
+		}
+	}
+
+	textareaI_IN.addEventListener('input', () => {
+		initShiftAlphabet(inputI.value);
+		crypt(textareaI_IN, textareaI_OUT);
+	});
+
+	inputI.addEventListener('input', () => {
+		initShiftAlphabet(inputI.value);
+		crypt(textareaI_IN, textareaI_OUT);
+	});
+
+	buttonIplus.addEventListener('click', () => {
+		inputI.value < 0 ? inputI.value = 0 : inputI.value++;
+		initShiftAlphabet(inputI.value);
+		crypt(textareaI_IN, textareaI_OUT);
+	});
+
+	buttonIminus.addEventListener('click', () => {
+		inputI.value <= 0 ? inputI.value = 0 : inputI.value--;
+		initShiftAlphabet(inputI.value);
+		crypt(textareaI_IN, textareaI_OUT);
+	});
+})
+
 //   // -------------------------------Дешифрование--------------------------------
 //   let text_in2 = $(".ta-in")[1];
 //   let text_out2 = $(".ta-out")[1];
@@ -82,43 +106,8 @@
 //     crypt(text_in2, text_out2);
 //   };
 //
-//   function initShiftAlph(k) {
-//     // Ключи по модулю длины алфавита
-//     let k_cyr = k % CYR_SMALL.length;
-//     let k_lat = k % LAT_BIG.length;
-//     // Отбрасываем первые k букв и добавляем их в конец
-//     shift_cyr_small = CYR_SMALL.slice(k_cyr) + CYR_SMALL.slice(0, k_cyr);
-//     shift_cyr_big = CYR_BIG.slice(k_cyr) + CYR_BIG.slice(0, k_cyr);
-//     shift_lat_small = LAT_SMALL.slice(k_lat) + LAT_SMALL.slice(0, k_lat);
-//     shift_lat_big = LAT_BIG.slice(k_lat) + LAT_BIG.slice(0, k_lat);
-//   }
-//
-//   function crypt(inp, outp) {
-//     let i_shift = 0; // Индекс сдвигаемого символа
-//     outp.value = ""; // При каждом срабатывании сначала очищаем результат
-//     for (let i = 0; i < inp.value.length; i++) {
-//       // Если строчная буква алфавита русского языка
-//       if (CYR_SMALL.indexOf(inp.value[i]) !== -1) {
-//         // находим в исходном алфавите индекс символа
-//         i_shift = CYR_SMALL.indexOf(inp.value[i]);
-//         // Записываем в строку символ по этой позиции из сдвинутого алфавита
-//         outp.value += shift_cyr_small[i_shift];
-//       } // Если прописная буква алфавита русского языка
-//       else if (CYR_BIG.indexOf(inp.value[i]) !== -1) {
-//         i_shift = CYR_BIG.indexOf(inp.value[i]);
-//         outp.value += shift_cyr_big[i_shift];
-//       } // Если строчная буква алфавита английского языка
-//       else if (LAT_SMALL.indexOf(inp.value[i]) !== -1) {
-//         i_shift = LAT_SMALL.indexOf(inp.value[i]);
-//         outp.value += shift_lat_small[i_shift];
-//       } // Если прописная буква алфавита английского языка
-//       else if (LAT_BIG.indexOf(inp.value[i]) !== -1) {
-//         i_shift = LAT_BIG.indexOf(inp.value[i]);
-//         outp.value += shift_lat_big[i_shift];
-//       } // В противом случае переписываем символ без изменений
-//       else outp.value += inp.value[i];
-//     }
-//   }
+
+
 //
 //   // =========================== HISTOGRAMM ============================
 //   let data = {
