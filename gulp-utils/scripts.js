@@ -1,7 +1,7 @@
 import gulp from "gulp";
 import paths from "./paths.js";
 import babel from "gulp-babel";
-import terser from "gulp-terser";
+import webpack from "webpack-stream";
 import concat from "gulp-concat";
 import plumber from "gulp-plumber";
 import notify from "gulp-notify";
@@ -17,7 +17,12 @@ export default () => {
 		.pipe(babel({
 			presets: ['@babel/env']
 		}))
-		.pipe(terser())
+		.pipe(webpack({
+			mode: 'development',
+			optimization: {
+				minimize: true,
+			}
+		}))
 		.pipe(concat('main.min.js'))
 		.pipe(size({ title: 'JS. After:'}))
 		.pipe(gulp.dest(paths.build.js))
