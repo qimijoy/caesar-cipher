@@ -100,25 +100,19 @@
 			  	<div class="textarea">
 			  		<div class="textarea__col">
 			  			<h3 class="textarea__header">Исходный текст:</h3>
-			  			<label for="textareaI_IN">
-			  				<textarea id="textareaI_IN" class="textarea__control" rows="10" cols="20" placeholder="Введите тайное послание...">
-			  				</textarea>
-			  			</label>
+			  			<textarea id="textareaI_IN" class="textarea__control" rows="10" cols="20" placeholder="Введите тайное послание..."></textarea>
 			  		</div>
 			  		<div class="textarea__key">
 			  			<h3 class="textarea__header">Ключ:</h3>
-			  				<input type="number" value="0" min="0" step="1" class="textarea__key-input">
+			  				<input type="number" value="0" min="0" step="1" class="textarea__key-input" id="inputI_KEY">
 			  			<div class="textarea__buttons">
-			  				<button class="textarea__button">+</button>
-			  				<button class="textarea__button">-</button>
+			  				<button id="buttonI_plus" class="textarea__button">+</button>
+			  				<button id="buttonI_minus" class="textarea__button">-</button>
 			  			</div>
 			  		</div>
 			  		<div class="textarea__col">
 			  			<h3 class="textarea__header">Шифртекст:</h3>
-			  			<label for="textareaI_OUT">
-			  				<textarea id="textareaI_OUT" class="textarea__control" rows="10" cols="20" readonly="readonly">
-			  				</textarea>
-			  			</label>
+			  			<textarea id="textareaI_OUT" class="textarea__control" rows="10" cols="20" readonly="readonly"></textarea>
 			  		</div>
 			  	</div>
 			  	<p>
