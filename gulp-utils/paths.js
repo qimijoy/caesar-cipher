@@ -16,7 +16,7 @@ export default {
 		js: src + 'scripts/**/*.js',
 		images: src + 'assets/images/**/*.{jpeg,jpg,gif,png,ico}',
 		svg: src + 'assets/images/**/*.svg',
-		fonts: src + 'assets/fonts/**/*.{ttf,woff}',
+		fonts: src + 'assets/fonts/**/*.{eot,ttf,otf,otc,ttc,woff,woff2,svg}',
 	},
 	watch: {
 		html: src + '**/*.html',
@@ -25,7 +25,7 @@ export default {
 		js: src + 'scripts/**/*.js',
 		images: src + 'assets/images/**/*.{jpeg,jpg,gif,png,ico}',
 		svg: src + 'assets/images/**/*.svg',
-		fonts: src + 'assets/fonts/**/*.{ttf,woff}',
+		fonts: src + 'assets/fonts/**/*.{eot,ttf,otf,otc,ttc,woff,woff2,svg}',
 	},
 	clean: dist
 }
