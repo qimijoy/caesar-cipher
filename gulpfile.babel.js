@@ -15,7 +15,19 @@ import browserSync from 'browser-sync';
 
 import ghPages from 'gulp-gh-pages';
 
-// WATCHING
+// TASKS
+export {
+	clean,
+	html,
+	styles,
+	scripts,
+	images,
+	svg,
+	fonts,
+	server,
+}
+
+// WATCHING TASK
 export const watching = () => {
 	gulp.watch([paths.watch.html, paths.watch.components], html).on('all', browserSync.reload)
 	gulp.watch(paths.watch.css, styles).on('all', browserSync.reload)
@@ -25,7 +37,7 @@ export const watching = () => {
 	gulp.watch(paths.watch.fonts, fonts).on('all', browserSync.reload)
 }
 
-// DEPLOY TO GITHUB
+// DEPLOY TO GITHUB TASK
 export const deploy = () => {
 	return gulp.src('./dist/**/*')
 		.pipe(ghPages());
