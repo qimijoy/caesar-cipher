@@ -1,5 +1,6 @@
 import gulp from 'gulp';
-import paths from './paths.js';
+import paths from '../paths.js';
+import config from '../configs.js';
 import include from 'gulp-include';
 import htmlmin from 'gulp-htmlmin';
 import plumber from 'gulp-plumber';
@@ -13,10 +14,7 @@ export default () => {
 			includePaths: paths.src.components
 		}))
 		.pipe(size({ title: 'HTML. Before:'}))
-		.pipe(htmlmin({
-			collapseWhitespace: true,
-			removeComments: true
-		}))
+		.pipe(htmlmin(config.htmlmin))
 		.pipe(size({ title: 'HTML. After:'}))
 		.pipe(gulp.dest(paths.build.html))
 }

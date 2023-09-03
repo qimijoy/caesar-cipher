@@ -6,6 +6,8 @@
   "license": "ISC",
   "homepage": "https://qimijoy.github.io/caesar-cipher",
   "scripts": {
+    "serve": "gulp",
+    "build": "gulp --production",
     "deploy": "gulp deploy"
   },
   "devDependencies": {
@@ -23,6 +25,7 @@
     "gulp-gh-pages": "^0.5.4",
     "gulp-group-css-media-queries": "^1.2.2",
     "gulp-htmlmin": "^5.0.1",
+    "gulp-if": "^3.0.0",
     "gulp-imagemin": "^8.0.0",
     "gulp-include": "^2.4.1",
     "gulp-less": "^5.0.0",
@@ -40,7 +43,6 @@
     "webpack-stream": "^7.0.0"
   },
   "dependencies": {
-    "chart.js": "^4.4.0",
     "core-js": "^3.32.1",
     "normalize.css": "^8.0.1"
   }

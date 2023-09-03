@@ -1,29 +1,22 @@
 import gulp from 'gulp';
 
 import paths from './gulp-utils/paths.js';
-import clean from './gulp-utils/clean.js';
-import html from './gulp-utils/html.js';
-import styles from './gulp-utils/styles.js';
-import scripts from './gulp-utils/scripts.js';
-import images from './gulp-utils/images.js';
-import svg from './gulp-utils/svg.js';
-import fonts from './gulp-utils/fonts.js';
+import config from './gulp-utils/configs.js';
+import clean from './gulp-utils/tasks/clean.js';
+import html from './gulp-utils/tasks/html.js';
+import styles from './gulp-utils/tasks/styles.js';
+import scripts from './gulp-utils/tasks/scripts.js';
+import images from './gulp-utils/tasks/images.js';
+import svg from './gulp-utils/tasks/svg.js';
+import fonts from './gulp-utils/tasks/fonts.js';
+import server from './gulp-utils/tasks/server.js';
 
 import browserSync from 'browser-sync';
 
 import ghPages from 'gulp-gh-pages';
 
-
 // WATCHING
 export const watching = () => {
-	browserSync({
-		ui: false,
-		notify: false,
-		server: {
-			baseDir: './dist'
-		}
-	});
-
 	gulp.watch([paths.watch.html, paths.watch.components], html).on('all', browserSync.reload)
 	gulp.watch(paths.watch.css, styles).on('all', browserSync.reload)
 	gulp.watch(paths.watch.js, scripts).on('all', browserSync.reload)
@@ -38,6 +31,10 @@ export const deploy = () => {
 		.pipe(ghPages());
 }
 
+export const test = (cb) => {
+	cb()
+}
+
 // BUILD TASK
 export const build = gulp.series(
 	clean,
@@ -45,8 +42,11 @@ export const build = gulp.series(
 	gulp.parallel(fonts, images, svg),
 )
 
-// DEFAULT TASK
-export default gulp.series(
+// DEV TASK
+export const dev = gulp.series(
 	build,
-	watching
+	gulp.parallel(server, watching)
 )
+
+// DEFAULT TASK
+export default config.isProduction ? build : dev;

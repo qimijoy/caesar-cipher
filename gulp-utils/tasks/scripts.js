@@ -1,5 +1,6 @@
 import gulp from "gulp";
-import paths from "./paths.js";
+import paths from "../paths.js";
+import config from '../configs.js';
 import babel from "gulp-babel";
 import webpack from "webpack-stream";
 import concat from "gulp-concat";
@@ -17,12 +18,7 @@ export default () => {
 		.pipe(babel({
 			presets: ['@babel/env']
 		}))
-		.pipe(webpack({
-			mode: 'development',
-			optimization: {
-				minimize: true,
-			}
-		}))
+		.pipe(webpack(config.webpack))
 		.pipe(concat('main.min.js'))
 		.pipe(size({ title: 'JS. After:'}))
 		.pipe(gulp.dest(paths.build.js), { sourcemaps: true })

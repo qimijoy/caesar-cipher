@@ -1,5 +1,5 @@
 import gulp from "gulp";
-import paths from "./paths.js";
+import paths from "../paths.js";
 import less from "gulp-less";
 import autoprefixer from "gulp-autoprefixer";
 import cleanCSS from "gulp-clean-css";

@@ -1,5 +1,5 @@
 import gulp from "gulp";
-import paths from "./paths.js";
+import paths from "../paths.js";
 import newer from "gulp-newer";
 import svgSprite from "gulp-svg-sprite";
 
