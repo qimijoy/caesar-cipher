@@ -14,8 +14,7 @@ export default {
 		templates: src + 'templates',
 		css: src + 'styles/*.less',
 		js: src + 'scripts/**/*.js',
-		images: src + 'assets/images/**/*.{jpeg,jpg,gif,png,ico}',
-		svg: src + 'assets/images/**/*.svg',
+		images: src + 'assets/images/**/*.{jpeg,jpg,gif,png,ico,svg}',
 		fonts: src + 'assets/fonts/**/*.{eot,ttf,otf,otc,ttc,woff,woff2,svg}',
 	},
 	watch: {
@@ -23,8 +22,7 @@ export default {
 		templates: src + 'templates/**/*.html',
 		css: src + 'styles/**/*.less',
 		js: src + 'scripts/**/*.js',
-		images: src + 'assets/images/**/*.{jpeg,jpg,gif,png,ico}',
-		svg: src + 'assets/images/**/*.svg',
+		images: src + 'assets/images/**/*.{jpeg,jpg,gif,png,ico,svg}',
 		fonts: src + 'assets/fonts/**/*.{eot,ttf,otf,otc,ttc,woff,woff2,svg}',
 	},
 	clean: dist

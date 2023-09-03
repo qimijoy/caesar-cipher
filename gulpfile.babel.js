@@ -7,7 +7,6 @@ import html from './gulp-utils/tasks/html.js';
 import styles from './gulp-utils/tasks/styles.js';
 import scripts from './gulp-utils/tasks/scripts.js';
 import images from './gulp-utils/tasks/images.js';
-import svg from './gulp-utils/tasks/svg.js';
 import fonts from './gulp-utils/tasks/fonts.js';
 import server from './gulp-utils/tasks/server.js';
 
@@ -22,7 +21,6 @@ export {
 	styles,
 	scripts,
 	images,
-	svg,
 	fonts,
 	server,
 }
@@ -33,7 +31,6 @@ export const watching = () => {
 	gulp.watch(paths.watch.css, styles).on('all', browserSync.reload)
 	gulp.watch(paths.watch.js, scripts).on('all', browserSync.reload)
 	gulp.watch(paths.watch.images, images).on('all', browserSync.reload)
-	gulp.watch(paths.watch.svg, svg).on('all', browserSync.reload)
 	gulp.watch(paths.watch.fonts, fonts).on('all', browserSync.reload)
 }
 
@@ -47,7 +44,7 @@ export const deploy = () => {
 export const build = gulp.series(
 	clean,
 	gulp.parallel(html, styles, scripts),
-	gulp.parallel(fonts, images, svg),
+	gulp.parallel(fonts, images),
 )
 
 // DEV TASK

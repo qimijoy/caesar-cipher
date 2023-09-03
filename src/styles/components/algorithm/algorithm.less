@@ -1,0 +1,17 @@
+.algorithm {
+	list-style: none;
+	counter-reset: li;
+	padding-inline-start: 20px;
+	text-align: justify;
+
+	&__item {
+		margin-top: 5px;
+		margin-left: 20px;
+
+		&::before {
+			content: counters(li, ".") ". ";
+			counter-increment: li;
+			margin-left: -20px;
+		}
+	}
+}
