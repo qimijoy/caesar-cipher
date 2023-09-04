@@ -43,6 +43,7 @@
     "webpack-stream": "^7.0.0"
   },
   "dependencies": {
+    "chart.js": "^4.4.0",
     "core-js": "^3.32.1",
     "normalize.css": "^8.0.1"
   }

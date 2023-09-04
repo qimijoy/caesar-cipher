@@ -1,4 +1,5 @@
 import { initShiftAlphabet, crypt } from './components/caesar.js';
+import { buildChart } from './components/charts.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 	// TEXTAREA I
@@ -34,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	const buttonIIminus = document.getElementById('buttonII_minus');
 
 	textareaII_IN.addEventListener('input', () => {
-
 		crypt(textareaII_IN, textareaII_OUT, initShiftAlphabet(-inputII.value));
 	});
 
@@ -49,6 +49,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	buttonIIminus.addEventListener('click', () => {
 		inputII.value <= 0 ? inputII.value = 0 : inputII.value--;
-		crypt(textareaII_IN, textareaII_OUT, initShiftAlphabet(inputII.value));
+		crypt(textareaII_IN, textareaII_OUT, initShiftAlphabet(-inputII.value));
+	});
+
+	// TEXTAREA III
+	const textareaIII_IN = document.getElementById('textareaIII_IN');
+	const textareaIII_OUT = document.getElementById('textareaIII_OUT');
+	const inputIII = document.getElementById('inputIII_KEY');
+	const buttonIIIplus = document.getElementById('buttonIII_plus');
+	const buttonIIIminus = document.getElementById('buttonIII_minus');
+	buildChart(textareaIII_OUT.value);
+
+	textareaIII_IN.addEventListener('input', () => {
+		crypt(textareaIII_IN, textareaIII_OUT, initShiftAlphabet(inputIII.value));
+		buildChart(textareaIII_OUT.value);
+	});
+
+	inputIII.addEventListener('input', () => {
+		crypt(textareaIII_IN, textareaIII_OUT, initShiftAlphabet(inputIII.value));
+		buildChart(textareaIII_OUT.value);
+	});
+
+	buttonIIIplus.addEventListener('click', () => {
+		inputIII.value++;
+		crypt(textareaIII_IN, textareaIII_OUT, initShiftAlphabet(inputIII.value));
+		buildChart(textareaIII_OUT.value);
+	});
+
+	buttonIIIminus.addEventListener('click', () => {
+		inputIII.value--;
+		crypt(textareaIII_IN, textareaIII_OUT, initShiftAlphabet(inputIII.value));
+		buildChart(textareaIII_OUT.value);
 	});
 })
