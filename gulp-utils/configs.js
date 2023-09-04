@@ -6,7 +6,8 @@ export default {
 	isDevelopment,
 
 	htmlmin: {
-		collapseWhitespace: isProduction
+		collapseWhitespace: true,
+		removeComments: isProduction
 	},
 
 	webpack: {
