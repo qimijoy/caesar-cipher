@@ -1,9 +1,0 @@
-/* ----------------------------- HISTOGRAMM --------------------------*/
-.ct-chart {
-  min-height: 600px;
-  min-width: 700px;
-}
-
-.ct-chart .ct-series-a .ct-bar {
-  stroke: green;
-}
