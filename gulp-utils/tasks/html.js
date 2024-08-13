@@ -9,12 +9,18 @@ import size from 'gulp-size';
 
 export default () => {
 	return gulp.src(paths.src.html)
-		.pipe(plumber({	errorHandler: notify.onError(error => ({ title: 'HTML',	message: error.message }))}))
+		.pipe(plumber({
+			errorHandler: notify.onError(error => ({ title: 'HTML',	message: error.message }))
+		}))
 		.pipe(include({
 			includePaths: paths.src.templates
 		}))
-		.pipe(size({ title: 'HTML. Before:'}))
+		.pipe(size({
+			title: 'HTML. Before:'
+		}))
 		.pipe(htmlmin(config.htmlmin))
-		.pipe(size({ title: 'HTML. After:'}))
+		.pipe(size({
+			title: 'HTML. After:'
+		}))
 		.pipe(gulp.dest(paths.build.html))
 }

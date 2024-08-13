@@ -9,10 +9,20 @@ import notify from "gulp-notify";
 import gulpif from "gulp-if";
 
 export default () => {
-	return gulp.src(paths.src.images)
-		.pipe(plumber({	errorHandler: notify.onError(error => ({ title: 'IMAGES',	message: error.message }))}))
-		.pipe(newer(paths.build.images))                                // update only if new images
+	// All images except svg
+	return gulp.src(paths.src.images, {
+		encoding: false
+	})
+		.pipe(plumber({
+			errorHandler: notify.onError(error => ({ title: 'IMAGES',	message: error.message }))
+		}))
+		.pipe(newer(paths.build.images))
 		.pipe(webp())
 		.pipe(gulpif(config.isProduction, imagemin(config.imagemin)))
-		.pipe(gulp.dest(paths.build.images));
+		.pipe(gulp.dest(paths.build.images))
+
+		// Only compress SVG
+		.pipe(gulp.src(paths.src.svg))
+		.pipe(gulpif(config.isProduction, imagemin(config.imagemin)))
+		.pipe(gulp.dest(paths.build.images))
 }

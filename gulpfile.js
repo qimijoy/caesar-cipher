@@ -1,6 +1,6 @@
 import gulp from 'gulp';
 
-import paths from './gulp-utils/paths.js';
+import paths, { dist } from './gulp-utils/paths.js';
 import config from './gulp-utils/configs.js';
 import clean from './gulp-utils/tasks/clean.js';
 import html from './gulp-utils/tasks/html.js';
@@ -12,7 +12,7 @@ import server from './gulp-utils/tasks/server.js';
 
 import browserSync from 'browser-sync';
 
-import ghPages from 'gulp-gh-pages';
+import ghPages from 'gh-pages';
 
 // TASKS
 export {
@@ -35,9 +35,8 @@ export const watching = () => {
 }
 
 // DEPLOY TO GITHUB TASK
-export const deploy = () => {
-	return gulp.src('./dist/**/*')
-		.pipe(ghPages());
+export const deploy = (callback) => {
+	return ghPages.publish(dist, callback);
 }
 
 // BUILD TASK
