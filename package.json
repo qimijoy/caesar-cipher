@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">= 20.16.0",
-    "npm": ">= 10.8.1"
+    "node": ">= 20.18.0",
+    "npm": ">= 10.8.2"
   },
   "scripts": {
     "dev": "gulp",
@@ -12,13 +12,13 @@
     "deploy": "npm run build && gulp deploy"
   },
   "dependencies": {
-    "chart.js": "4.4.3",
+    "chart.js": "4.4.4",
     "normalize.css": "8.0.1"
   },
   "devDependencies": {
-    "@babel/preset-env": "7.25.3",
+    "@babel/preset-env": "7.25.7",
     "@qimijoy/browserslist-config": "1.1.2",
-    "browser-sync": "3.0.2",
+    "browser-sync": "3.0.3",
     "del": "7.1.0",
     "gh-pages": "6.1.1",
     "gulp": "5.0.0",
@@ -33,13 +33,13 @@
     "gulp-include": "2.4.1",
     "gulp-less": "5.0.0",
     "gulp-newer": "1.4.0",
-    "gulp-notify": "4.0.0",
+    "gulp-notify": "5.0.0",
     "gulp-plumber": "1.2.1",
     "gulp-rename": "2.0.0",
     "gulp-size": "5.0.0",
     "gulp-ttf2woff2": "5.0.0",
     "gulp-webp": "5.0.0",
-    "webpack": "5.93.0",
+    "webpack": "5.95.0",
     "webpack-stream": "7.0.0"
   }
 }
