@@ -12,7 +12,7 @@
     "deploy": "npm run build && gulp deploy"
   },
   "dependencies": {
-    "chart.js": "4.4.6",
+    "chart.js": "4.4.7",
     "normalize.css": "8.0.1"
   },
   "devDependencies": {
@@ -39,7 +39,7 @@
     "gulp-size": "5.0.0",
     "gulp-ttf2woff2": "5.0.0",
     "gulp-webp": "5.0.0",
-    "webpack": "5.96.1",
+    "webpack": "5.97.1",
     "webpack-stream": "7.0.0"
   }
 }
