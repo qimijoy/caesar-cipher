@@ -1,0 +1,74 @@
+@import '../../common/vars.less';
+
+.textarea {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	@media @mobile-plus {
+		flex-direction: row;
+	}
+
+	&__col {
+		margin: 20px 30px;
+	}
+
+	&__header {
+		text-align: center;
+		margin: 0 0 10px;
+	}
+
+	&__control {
+		display: block;
+		resize: none;
+		margin: 0 auto;
+		line-height: 1.3rem;
+		border: 2px solid rgb(128, 128, 128);
+
+		&:focus {
+			outline: 2px solid #67bbff;
+		}
+	}
+
+	&__key {
+		display: flex;
+		flex-flow: column wrap;
+		justify-content: center;
+		align-items: center;
+	}
+
+	&__key-input {
+		margin-bottom: 10px;
+		width: 110px;
+		border: 2px solid rgb(128, 128, 128);
+	}
+
+	&__button {
+		margin-right: 5px;
+		font-weight: 700;
+		color: white;
+		border: 0;
+		text-decoration: none;
+		padding: 15px 20px;
+		border-radius: 20%;
+		background: rgb(64, 199, 129);
+		box-shadow: 0 -3px rgb(53, 167, 110) inset;
+		transition: 0.5s;
+		outline: none;
+		cursor: pointer;
+
+		&:last-child {
+			margin-right: 0;
+		}
+
+		&:hover, &:focus {
+			background: rgb(53, 167, 110);
+		}
+
+		:active {
+			background: rgb(14, 78, 46);
+			box-shadow: 0 3px rgb(14, 78, 46) inset;
+		}
+	}
+}

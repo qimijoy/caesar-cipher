@@ -1,0 +1,37 @@
+@import './vars.less';
+
+* {
+	box-sizing: border-box;
+}
+
+html, body {
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	font-family: "Roboto", "Arial", sans-serif;
+	font-size: @fz-mobile;
+	line-height: 1.5;
+
+	@media @tablets {
+		font-size: @fz-tablet;
+	}
+
+	@media @desktops {
+		font-size: @fz-desktop;
+	}
+}
+
+p {
+	margin-top: 0;
+	margin-bottom: 20px;
+}
+
+a {
+	color: inherit;
+
+	&:hover {
+		color: #38ad9e;
+	}
+}

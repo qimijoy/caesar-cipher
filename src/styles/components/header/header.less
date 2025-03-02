@@ -1,0 +1,115 @@
+@import '../../common/vars.less';
+
+.header {
+	z-index: 10;
+
+	&__nav {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		height: 100px;
+
+		background-color: white;
+		box-shadow: 0 8px 10px -10px @white-shadow;
+
+	}
+
+	&__logo {
+		display: flex;
+		flex-flow: row nowrap;
+		justify-content: flex-start;
+		align-items: center;
+		transition: opacity 0.5s ease-in;
+	}
+
+	&__logo-link {
+		height: 40px;
+		margin-right: 20px;
+	}
+
+	&__logo-img {
+		width: 40px;
+		margin: auto 0;
+	}
+
+	&__title {
+		margin: 0;
+		display: none;
+
+		@media @tablets-minus {
+			margin-right: 16px;
+			display: block;
+		}
+	}
+
+	&__title_hide {
+		opacity: 0;
+	}
+
+	&__menu {
+		display: none;
+		flex-flow: column nowrap;
+		justify-content: center;
+		align-items: center;
+		margin: 0;
+		list-style-type: none;
+		background-color: #efefef;
+		border-radius: 5px;
+		padding: 2px;
+
+		position: fixed;
+		right: 95px;
+		top: 70px;
+
+		box-shadow: 0 5px 20px 8px @white-shadow;
+
+		@media @desktops {
+			display: flex;
+			flex-flow: row nowrap;
+			position: static;
+
+			background-color: initial;
+			padding: 0;
+			box-shadow: none;
+		}
+	}
+
+	&__menu_show {
+		display: flex;
+	}
+
+	&__menu-item {
+		display: block;
+		min-width: 170px;
+		border-bottom: 1px solid #bbbbbb;
+
+		&:last-child {
+			border: none;
+		}
+
+		@media @desktops {
+			border: none;
+			min-width: 120px;
+		}
+	}
+
+	&__menu-link {
+		display: block;
+		line-height: 50px;
+		text-decoration: none;
+		padding: 0 5px;
+		text-align: center;
+
+		&:hover,
+		&_active {
+			color: @link-color;
+			transition-duration: 400ms;
+		}
+
+		&:focus {
+			outline: none;
+		}
+	}
+}
